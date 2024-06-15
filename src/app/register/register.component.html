@@ -1,0 +1,98 @@
+<form [formGroup]="registerform" (ngSubmit)="register()">
+    <div class="row mb-3">
+        <div class="col">
+            <label for="firstname" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="fname" formControlName="firstName">
+            <div class="form-text text-danger"
+            *ngIf="FIRSTNAME.errors?.['required'] && (FIRSTNAME.dirty || FIRSTNAME.touched)"
+            >
+           FIRST NAME is Required
+            </div>
+            <div class="form-text text-danger"
+            *ngIf="!!FIRSTNAME.errors?.['minlength'] && (FIRSTNAME.dirty || FIRSTNAME.touched)"
+            >
+            FIRST NAME is too short. At Least 2 Characters
+
+            </div>  <div class="form-text text-danger"
+            *ngIf="FIRSTNAME.errors?.['pattern'] && (FIRSTNAME.dirty || FIRSTNAME.touched)"
+            >
+            Name should start with an alphabet
+
+            </div>
+        </div>
+        <div class="col">
+            <label for="lastname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lname" formControlName="lastName">
+            <div class="form-text text-danger"
+            *ngIf="LASTNAME.errors?.['required'] && (LASTNAME.dirty || LASTNAME.touched)"
+            >
+            LAST NAME is Required
+            </div>
+            <div class="form-text text-danger"
+            *ngIf="!!LASTNAME.errors?.['minlength'] && (LASTNAME.dirty || LASTNAME.touched)"
+            >
+            LAST NAME is too short. At Least 2 Characters
+
+            </div>  <div class="form-text text-danger"
+            *ngIf="LASTNAME.errors?.['pattern'] && (LASTNAME.dirty || LASTNAME.touched)"
+            >
+            Name should start with an alphabet
+
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="ema" formControlName="email">
+            <div class="form-text text-danger" *ngIf="EMAIL.errors?.['required'] && (
+                EMAIL.dirty || EMAIL.touched
+                )">
+                Email is Required
+
+            </div>
+            <div class="form-text text-danger" *ngIf="EMAIL.errors?.['email'] && (
+                EMAIL.dirty || EMAIL.touched
+                )">
+                Email is Valid
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label for="Password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="Password" formControlName="pwd"> 
+                <div class="form-text text-danger"
+                *ngIf="PASSWORD.errors?.['required'] && (PASSWORD.dirty || PASSWORD.touched)"
+                >
+                Password is required
+
+                </div> 
+                <div class="form-text text-danger"
+                *ngIf="PASSWORD.errors?.['maxlength'] && (PASSWORD.dirty || PASSWORD.touched)"
+                >
+                Password should be atleast 6 or maximum 15 character
+
+                </div>                  
+            </div>
+            <div class="col mb-3">
+                <label for="repeatpassword" class="form-label">Repeat Password</label>
+                <input type="password" class="form-control" id="repeatpassword" formControlName="rpwd">      
+                <div class="form-text text-danger" *ngIf="isinvalidpassword">
+                    Password not match
+
+                </div>             
+            </div>
+        </div>
+    </div>
+    <div>
+        <button type="submit" class="d-block mx-auto btn btn-outline-primary"
+        [disabled]="registerform.invalid"
+        >
+            Create Account
+        </button>
+    </div>
+    <div class="mt-3 text-center">
+        <h5 class="text-success">Account Created</h5>
+
+    </div>
+
+</form>
