@@ -1,5 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { Category } from '../models/models';
+import { Category, Product } from '../models/models';
+import { DataAccessService } from '../data-access.service';
 
 @Component({
   selector: 'app-suggested-product',
@@ -14,9 +15,22 @@ export class SuggestedProductComponent implements OnInit {
     subCategory:''
   }
   @Input() count:number=3;
-  constructor() { }
+  products:Product[]=[]
+  constructor(private dataser:DataAccessService ) { }
 
   ngOnInit(): void {
+    this.dataser.getProducts(
+      this.category.category,
+      this.category.subCategory,
+      this.count
+    ).subscribe((list:any[])=>{
+      for(let item of list){
+        this.products.push(item);
+      }
+      
+
+    });
+
   }
 
 }

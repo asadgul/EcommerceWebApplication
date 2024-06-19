@@ -19,7 +19,8 @@ align-items-center
                 >
             <li class="text-center fw-bold">{{item.category | titlecase}}</li>
             <li *ngFor="let subcategory of item.subcategories" [style.cursor]="'pointer'">
-                <a class="dropdown-item" OpenProducts [category]="{id:0,
+                <a class="dropdown-item" 
+                OpenProducts [category]="{id:0,
                 'category':item.category,
             'subCategory':subcategory
             }" >
@@ -41,17 +42,30 @@ align-items-center
             class="btn btn-outline-light"
             data-bs-toggle="modal"
             data-bs-target="#generalmodal"
+            *ngIf="!dataservice.isLogin()"
            >Login</button>
             <button type="button" class="btn btn-outline-light"
             (click)="openContainer('register')"
             data-bs-toggle="modal"
             data-bs-target="#generalmodal"            
-           
+            *ngIf="!dataservice.isLogin()"
             >Register</button>
-            <button type="button" class="btn btn-outline-light" routerLink="/Account">Account</button>
-            <button type="button" class="btn btn-outline-light" routerLink="/cart">Cart</button>
-            <button type="button" class="btn btn-outline-light" routerLink="/orders">Orders</button>
-            <button type="button" class="btn btn-outline-light" routerLink="/Logout">Logout</button>
+            <!-- <button type="button" class="btn btn-outline-light"
+            *ngIf="dataservice.isLogin()"
+            routerLink="/Account">Account</button> -->
+            <button type="button" class="btn btn-outline-light"
+            *ngIf="dataservice.isLogin()"
+            routerLink="/cart">Cart
+        <span class="badge bg-warning text-dark">{{cartItems}}</span>
+        </button>
+            <button type="button" class="btn btn-outline-light"
+            *ngIf="dataservice.isLogin()"
+            routerLink="/orders">Orders</button>
+            <button type="button" class="btn btn-outline-light"  routerLink="/Logout"
+            (click)="dataservice.Logout()"
+            *ngIf="dataservice.isLogin()"
+            routerLink="/home"
+            >Logout</button>
 
         </div>
     </div>

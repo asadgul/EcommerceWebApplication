@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DataAccessService } from '../data-access.service';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +12,8 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   message = '';
   constructor(
-    private fb: FormBuilder
-   // private navigationService: NavigationService,
-    //private utilityService: UtilityService
+    private fb: FormBuilder,
+    private dataservice:DataAccessService
   ) {}
 
   ngOnInit(): void {
@@ -31,17 +31,18 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    // this.navigationService
-    //   .loginUser(this.Email.value, this.PWD.value)
-    //   .subscribe((res: any) => {
-    //     if (res.toString() !== 'invalid') {
-    //       this.message = 'Logged In Successfully.';
-    //       this.utilityService.setUser(res.toString());
-    //       console.log(this.utilityService.getUser());
-    //     } else {
-    //       this.message = 'Invalid Credentials!';
-    //     }
-    //   });
+    this.dataservice.ValidateLoginandToken(this.Email.value,this.PWD.value).subscribe((res:any)=>{
+      if(res!=''){
+        console.log('token is'+res);
+        this.dataservice.setToken(res);
+        this.message="Success";
+        console.log('user is '+this.dataservice.getUser().email)
+      }
+      else{
+        this.message="Invalid Email or Password";      
+      }
+
+    })
   }
 
   get Email(): FormControl {

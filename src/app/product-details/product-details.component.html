@@ -1,52 +1,54 @@
 <div class="my-container mx-auto border border-dark" >
-<div class="row g-0">
+<div class="row g-0" *ngIf="product">
     <div class="col-4 p-4">
         <div class="d-flex mt-4 justify-content-center align-items-center">
-        <img src="../../assets/Images/mobiles/10/{{Imageindex}}.jpg" alt="" class="w-100">
+            <img src="../../assets/Images/{{product.productCategory.subCategory}}/{{product.id}}/{{imageIndex}}.jpg"
+            alt="" class="w-100">
     </div>
     <div class="image-thumbnails mt-4 d-flex justify-content-between align-items-center">
-        <img src="../../assets/Images/mobiles/10/1.jpg" 
-        (click)="Imageindex=1"
-        >
-        <img src="../../assets/Images/mobiles/10/2.jpg" 
-        (click)="Imageindex=2"
-        >
-        <img src="../../assets/Images/mobiles/10/3.jpg" 
-        (click)="Imageindex=3"
-        >
-        <img src="../../assets/Images/mobiles/10/4.jpg" 
-        (click)="Imageindex=4"
-        >
-        <img src="../../assets/Images/mobiles/10/5.jpg"  
-        (click)="Imageindex=5"
-        >
+        <img src="../../assets/Images/{{product.productCategory.subCategory}}/{{product.id}}/1.jpg"
+                     alt="Thumbnail Image" (click)="imageIndex = 1">
+                <img src="../../assets/Images/{{product.productCategory.subCategory}}/{{product.id}}/2.jpg"
+                     alt="Thumbnail Image" (click)="imageIndex = 2">
+                <img src="../../assets/Images/{{product.productCategory.subCategory}}/{{product.id}}/3.jpg"
+                     alt="Thumbnail Image" (click)="imageIndex = 3">
+                <img src="../../assets/Images/{{product.productCategory.subCategory}}/{{product.id}}/4.jpg"
+                     alt="Thumbnail Image" (click)="imageIndex = 4">
+                <img src="../../assets/Images/{{product.productCategory.subCategory}}/{{product.id}}/5.jpg"
+                     alt="Thumbnail Image" (click)="imageIndex = 5">>
     </div>
 
     </div>
-    <div class="col-8">
+    <div class="col-8" *ngIf="product">
         <div class="card">
             <div class="card-header">
-                <h2>Header</h2>
+                <h2>{{product?.title | titlecase}}</h2>
             </div>
             <div class="card-body">
-                <h1 class="card-title text-success">Final Price
-                    <span class="text-primary">-20%</span>
+                <h1 class="card-title text-success">
+                    {{dataacceser.applyDiscount(product.price,product.offer.discount)}}
+                    <span class="text-primary">-{{product.offer.discount}}%</span>
                 </h1>
                 <h4 class="card-subtitle text-danger text-decoration-line-through">
-                    Original Price
+                    {{product.price}}
                 </h4>
             </div>
             <div class="card-body">
-                <h6 class="card-subtitle my-2 text-primary">11 products are Available</h6>
+                <h6 class="card-subtitle my-2 text-primary">{{product.quantity}} product are Available</h6>
                 <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-outline-success">Add To Cart</button>
+                    <button type="button" class="btn btn-outline-success"
+                    [disabled]="!dataacceser.isLogin()"
+                    (click)="dataacceser.cartItemsUpdate(product)"
+                    >Add To Cart
+                <span *ngIf="!dataacceser.isLogin()">(Login first)</span>
+                </button>
                 </div>
             </div>
             <div class="card-body">
                 <h5 class="card-text">Description</h5>
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-action" 
-                    *ngFor="let items of [1,1,1,1]">
+                    *ngFor="let items of product.description.split('. ')">
                         {{items}}
                     </li>
                 </ul>
@@ -58,13 +60,13 @@
 
 </div>
 
-<div class="row g-0">
+<div class="row g-0" *ngIf="product">
 <div class="col-12 ps-5 pt-4 pb-3">
     <h3 class="border  border-secondary text-center py-2 my-rounded-corner w-25">
         Related Products
     </h3>
     <div class="col-12">
-    <app-suggested-product></app-suggested-product>
+    <app-suggested-product [category]="product.productCategory"></app-suggested-product>
 </div>
 </div>
 </div>
@@ -73,35 +75,37 @@
     <div class="col p-3 ">
         <h3>Give Your Review</h3>
         <h5 class="mt-4">Write Your Review</h5>
-        <textarea class="w-75 p-2"></textarea>
+        <textarea class="w-75 p-2" [formControl]="reviewControl"></textarea>
         <div class="d-flex align-items-start">
-            <button class="btn btn-outline-secondary mt-4 me-5" type="button">
+            <button class="btn btn-outline-secondary mt-4 me-5" type="button"
+            (click)="submitReview()"
+            >
                 Save Review
             </button>
             <div>
-                <h6 class="text-danger mt-4">Login First,then enter the review</h6>
-                <h6 class="text-danger">Review/Rating Cannot be Empty!</h6>
-                <h6 class="text-success">Review Saved Successfully</h6>
+                <h6 class="text-danger mt-4" *ngIf="!dataacceser.isLogin()">Login First,then enter the review</h6>
+                <h6 class="text-danger" *ngIf="status">Review/Rating Cannot be Empty!</h6>
+                <h6 class="text-success" *ngIf="status">Review Saved Successfully</h6>
 
             </div>
         </div>
     </div>
     <div class="col p-3">
         <h3>Other Reviews</h3>
-        <h6 *ngIf="1"> No Reviews Yet!</h6>
-        <div class="card mt-3" *ngFor="let review of [1,2,3]">
+        <h6 *ngIf="otherreviews.length===0"> No Reviews Yet!</h6>
+        <div class="card mt-3" *ngFor="let review of otherreviews">
             <div class="card-header d-flex justify-content-between">
                 <div class="card-text">
-                    Asad 
-                    Umer
+                   {{review.user.firstName}}
+                   {{review.user.lastName}}
                 </div>
                 <div class="card-text fst-italic">
-                    Reviewed On :<span class="fw-bold">{{"20 Oct 2023" | date:"dd-MMM-yyyy"}}</span>
+                    Reviewed On :<span class="fw-bold">{{review.createdAt | date:"dd-MMM-yyyy"}}</span>
     
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-text">Review</div>
+                <div class="card-text">{{review.value}}</div>
             </div>
     
         </div>

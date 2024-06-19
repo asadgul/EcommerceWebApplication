@@ -1,7 +1,8 @@
 import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { NavigationItem } from '../models/models';
+import { Category, NavigationItem } from '../models/models';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
+import { DataAccessService } from '../data-access.service';
 
 @Component({
   selector: 'app-header',
@@ -12,20 +13,43 @@ export class HeaderComponent implements OnInit {
   @ViewChild('modaltitle') modaltitle!:ElementRef;
   @ViewChild('container',{read:ViewContainerRef,static:true})
   container!:ViewContainerRef;
-  navigationList:NavigationItem[]=[
-    {
-category:"electronics",
-subcategories:["mobile","laptops"]
-    },
-    {
-      category:"furniture",
-      subcategories:["chairs","tables"]      
+  navigationList:NavigationItem[]=[];
+  cartItems:number=0;
+
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,
+    public dataservice:DataAccessService
+
+  ) { }
+
+  ngOnInit() {
+    this.dataservice.getCategoryList().subscribe((list:Category[])=>{
+      for(let item of list){
+        let present=false;
+        for(let navItem of this.navigationList){
+          if(navItem.category===item.category){
+            navItem.subcategories.push(item.subCategory)
+            present=true;
+          }
+        }
+        if(!present){
+          this.navigationList.push({
+            category:item.category,
+            subcategories:[item.subCategory]
+
+          });
+        }
+      }
+
+    });
+    if(this.dataservice.isLogin()){
+      this.dataservice.GetCurrentCartItem(this.dataservice.getUser().id).subscribe((res:any)=>{
+        this.cartItems=res.cartItems.length
+      });
     }
-  ];
+    this.dataservice.updateCartItems.subscribe((res:any)=>{
+      this.cartItems+=res
+    });
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
-
-  ngOnInit(): void {
   }
   openContainer(name:string){
     let componentFactory:any;
