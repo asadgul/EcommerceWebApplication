@@ -43,8 +43,7 @@ reviewControl=new FormControl('');
     this.dataacceser.submtReview(userid,productid,review).subscribe((res:any)=>{
       if(res==='Inserted'){
         this.status=true
-        this.FetchAllReviews();
-      
+        this.FetchAllReviews();     
       }
     });
   }
@@ -56,7 +55,6 @@ reviewControl=new FormControl('');
       }
       console.log(this.otherreviews);
     });
-
   }
   UpdateCartItems(){
     this.dataacceser.updateCartItems.subscribe((res:any)=>{

@@ -20,8 +20,7 @@ export class DataAccessService {
    }
    getCategoryList():Observable<Category[]>{
   let url = this.baseurl + 'GetProductsCategories';
-  return this.http.get<any[]>(url).pipe(
-    map(categories => categories.map(category => {
+  return this.http.get<any[]>(url).pipe(map(categories=>categories.map(category => {
       let mappedCategory: Category = {
         id: category.id,
         category: category.category,
@@ -32,7 +31,8 @@ export class DataAccessService {
   ); 
 }
 getProducts(category:string,subcategory:string,count:number){
-  return this.http.get<any[]>(this.baseurl+'GetProducts',{
+  return this.http.get<any[]>(this.baseurl+'GetProducts',
+    {
     params:new HttpParams().set('category',category)
     .set('subcategory',subcategory)
     .set('count',count)

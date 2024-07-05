@@ -27,9 +27,8 @@ export class SuggestedProductComponent implements OnInit {
       for(let item of list){
         this.products.push(item);
       }
-      
-
     });
+    console.log(this.products);
 
   }
 

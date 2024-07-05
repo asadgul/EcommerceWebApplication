@@ -25,12 +25,9 @@ export class ProductsComponent implements OnInit {
       if(category && subcategory){
         this.dataacces.getProducts(category,subcategory,10).subscribe((res:any)=>{
           this.products=res;
-
           console.log('products are'+this.products);
-
         });
       }
-
     });
   }
   sortByPrice(sortKey:string){
@@ -42,17 +39,13 @@ export class ProductsComponent implements OnInit {
  return this.dataacces.applyDiscount(a.price,a.offer.discount)> 
   this.dataacces.applyDiscount(b.price,b.offer.discount)
   ?-1:1;
-            }
-
-if(sortKey==='lth'){
-  
+  }
+if(sortKey==='lth'){  
   return this.dataacces.applyDiscount(a.price,a.offer.discount)> 
 this.dataacces.applyDiscount(b.price,b.offer.discount)
 ?1:-1;
 }
 return 0;
     });
-
   }
-
 }

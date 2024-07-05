@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
       category:{
         id:0,
         category:'Electronics',
-        subCategory:'Mobile'
+        subCategory:'Mobiles'
       }
     },
     {

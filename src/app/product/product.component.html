@@ -1,8 +1,8 @@
 <div class="grid-view" *ngIf="view==='grid'">
     <div class="card text-center">
-    <div class="card-header fw-bold fs-5 text-success">
+    <!-- <div class="card-header fw-bold fs-5 text-success">
         Header
-    </div>
+    </div> -->
     <div class="overflow-hidden d-flex justify-content-center align-items-center">
         <img src="../../assets/Images/{{product.productCategory.subCategory}}/{{product.id}}/1.jpg" class="card-img-top"
         OpenProductDetails [productId]="product.id"
@@ -86,7 +86,6 @@
             alt="Product Image"
             OpenProductDetails [productId]="product.id"
             >
-
         </div>
         <div class="col-8">
             <div class="card-body">
@@ -105,9 +104,7 @@
                 <button class="btn btn-outline-danger" type="button">
                     Remove From Cart
                 </button>
-
             </div> -->
-
         </div>
     </div>
 </div>
@@ -118,8 +115,7 @@
                 <img src="../../assets/Images/mobiles/10/1.jpg" class="card-img-top"
                 alt="Product Image"
                 OpenProductDetails [productId]="product.id"
-                >
-    
+                >    
                 <img src="../../assets/Images/{{product.productCategory.subCategory}}/{{product.id}}/1.jpg" class="card-img-top"
                 alt="Product Image"
                 OpenProductDetails [productId]="product.id"
