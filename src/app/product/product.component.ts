@@ -30,10 +30,14 @@ export class ProductComponent implements OnInit {
   }
 
   constructor(public dataser:DataAccessService) { 
+
     
   }
 
   ngOnInit(): void {
+    console.log(this.product.productCategory.subCategory)
+    console.log(this.product.id)
+
   }
 
 }
